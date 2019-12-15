@@ -46,7 +46,36 @@ class Vampire {
   // * when comparing Ansel and Sarah, Ansel is the closest common anscestor.
   // * when comparing Ansel and Andrew, Ansel is the closest common anscestor.
   closestCommonAncestor(vampire) {
+    let senior, junior;
+    if (this.isMoreSeniorThan(vampire)) {
+      senior = this;
+      junior = vampire;
+    } else {
+      senior = vampire;
+      junior = this;
+    }
 
+    // Set both vampires at the same level to be able to compare their creators
+    while (senior.isMoreSeniorThan(junior)) {
+      junior = junior.creator;
+    }
+
+    // Change variables name to avoid confusion since now one is not more senior than the other
+    let vampireA = senior;
+    let vampireB = junior;
+
+    // Go up in the tree until the common ancestor is found
+    while (vampireA.creator !== vampireB.creator) {
+      vampireA = vampireA.creator;
+      vampireB = vampireB.creator;
+    }
+
+    // return the more senior vampire if a direct ancestor is used
+    if (vampireA === vampireB) {
+      return vampireA;
+    }
+
+    return vampireA.creator;
   }
 }
 
