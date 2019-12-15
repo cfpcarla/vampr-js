@@ -16,12 +16,21 @@ class Vampire {
 
   // Returns the total number of vampires created by that vampire
   get numberOfOffspring() {
-
+    return this.offspring.length;
   }
 
   // Returns the number of vampires away from the original vampire this vampire is
   get numberOfVampiresFromOriginal() {
-
+    if (this.creator === null) {
+      return 0;
+    }
+    let count = 1;
+    let vampire = this.creator;
+    while (vampire.creator) {
+      count += 1;
+      vampire = vampire.creator;
+    }
+    return count;
   }
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
